@@ -1,0 +1,41 @@
+Sub AjustarQuebraEntreRegistros()
+ 
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+ 
+    Dim ultimaLinha As Long
+    Dim i As Long
+    Dim linhaDestino As Long
+ 
+    Dim textoAtual As String
+    Dim textoAnterior As String
+ 
+    ultimaLinha = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    linhaDestino = 1
+ 
+    For i = 1 To ultimaLinha
+ 
+        textoAtual = Trim(ws.Cells(i, 1).Value)
+ 
+        ' Verifica se é início de novo registro: "numero - nome"
+        If textoAtual Like "#* - *" Or textoAtual Like "##* - *" Or textoAtual Like "###* - *" Then
+ 
+            ' Se a linha anterior gravada NÃO for vazia, cria quebra
+            If linhaDestino > 1 Then
+                If Trim(ws.Cells(linhaDestino - 1, 2).Value) <> "" Then
+                    ws.Cells(linhaDestino, 2).Value = ""
+                    linhaDestino = linhaDestino + 1
+                End If
+            End If
+ 
+        End If
+ 
+        ' Grava a linha atual
+        ws.Cells(linhaDestino, 2).Value = textoAtual
+        linhaDestino = linhaDestino + 1
+ 
+    Next i
+ 
+    MsgBox "Ajuste concluído com sucesso!", vbInformation
+ 
+End Sub
