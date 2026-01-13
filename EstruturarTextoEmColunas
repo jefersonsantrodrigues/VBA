@@ -1,0 +1,40 @@
+Sub EstruturarTextoEmColunas()
+ 
+    On Error GoTo Erro
+ 
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+ 
+    Dim linhaOrigem As Long
+    Dim ultimaLinha As Long
+    Dim linhaDestino As Long
+    Dim colunaDestino As Long
+ 
+    ' Última linha preenchida da coluna A
+    ultimaLinha = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+ 
+    linhaDestino = 1
+    colunaDestino = 1
+ 
+    For linhaOrigem = 1 To ultimaLinha
+ 
+        If Trim(ws.Cells(linhaOrigem, 1).Value) = "" Then
+            ' Linha vazia = novo registro
+            ws.Cells(linhaDestino, colunaDestino).Value = ws.Cells(linhaOrigem, 1).Value
+            linhaDestino = linhaDestino + 1
+            colunaDestino = 1
+            
+        Else
+            ws.Cells(linhaDestino, colunaDestino).Value = ws.Cells(linhaOrigem, 1).Value
+            colunaDestino = colunaDestino + 1
+        End If
+ 
+    Next linhaOrigem
+ 
+    MsgBox "Texto estruturado com sucesso!", vbInformation
+    Exit Sub
+ 
+Erro:
+    MsgBox "Erro: " & Err.Description, vbCritical
+ 
+End Sub
