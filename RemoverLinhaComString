@@ -1,0 +1,16 @@
+Sub RemoverLinhaComString()
+
+    Dim ws As Worksheet
+    Dim ultimaLinha As Long
+    Dim i As Long
+
+    Set ws = ActiveSheet
+    ultimaLinha = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+
+    For i = ultimaLinha To 1 Step -1
+        If InStr(1, ws.Cells(i, 1).Value, "Código", vbTextCompare) > 0 Then
+            ws.Rows(i).Delete
+        End If
+    Next i
+
+End Sub
